@@ -1,13 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { Bar } from "react-chartjs-2";
+import { useSortingData } from "../contentContext";
 import { getChartConfig } from "./services";
 
 export function Chart() {
-  const [length, setLength] = useState(60);
-  const { randomArr, generateArr } = useRandomArr(length);
+  const { length, randomArr, generateArr } = useSortingData();
   useEffect(() => {
     generateArr();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [length]);
   const data = useMemo(
@@ -16,15 +15,6 @@ export function Chart() {
   );
   return (
     <>
-      <button onClick={generateArr}>Randomize</button>
-      <input
-        value={length}
-        type="number"
-        onChange={(e) => {
-          const val = e.target.value ? +e.target.value : 30;
-          setLength(val);
-        }}
-      />
       <Bar
         data={data}
         width={100}
@@ -33,15 +23,4 @@ export function Chart() {
       />
     </>
   );
-}
-
-function useRandomArr(length: number) {
-  const [randomArr, setRandomArr] = useState<number[]>([]);
-  function generateArr() {
-    const randomData = Array.from({ length }, () =>
-      Math.floor(Math.random() * length)
-    );
-    setRandomArr(randomData);
-  }
-  return { randomArr, generateArr };
 }

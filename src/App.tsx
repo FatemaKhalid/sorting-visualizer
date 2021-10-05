@@ -1,11 +1,11 @@
 import { NavBar } from "./navBar";
-import { Chart } from "./chart";
+import { Content } from "./content";
 
 export function App() {
   return (
     <div className="App">
       <NavBar />
-      <Chart />
+      <Content />
     </div>
   );
 }

@@ -18,7 +18,7 @@ export function Chart() {
       <Bar
         data={data}
         width={100}
-        height={45}
+        height={40}
         options={{ maintainAspectRatio: true }}
       />
     </>

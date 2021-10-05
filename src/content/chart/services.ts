@@ -1,5 +1,5 @@
 export const getChartConfig = (length: number, randomArr: number[]) => ({
-  labels: Array.from({ length }, () => ""),
+  labels: Array.from({ length }, (_, i) => i + 1),
   datasets: [
     {
       label: "",

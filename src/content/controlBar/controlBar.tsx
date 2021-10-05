@@ -1,29 +1,40 @@
 import { useSortingData } from "../contentContext";
-import { SORTING_ALGO } from "./constants";
+import { INIT_LENGTH, SORTING_ALGO } from "./constants";
+import "../content.scss";
 
 export function ControlBar() {
   const { length, generateArr, handleLengthChange } = useSortingData();
   return (
-    <div>
-      <button onClick={generateArr}>Randomize</button>
-      <input
-        value={length}
-        type="number"
-        onChange={(e) => {
-          const val = e.target.value ? +e.target.value : 30;
-          handleLengthChange(val);
-        }}
-      />
-      {SORTING_ALGO.map((sorting) => (
-        <SortingButton key={sorting} name={sorting} />
-      ))}
+    <div className="sorting__control-bar">
+      <div className="sorting__control-bar-btns">
+        <div className="sorting__randomize-btn-container">
+          <button className="sorting__randomize-btn" onClick={generateArr}>
+            Randomize
+          </button>
+        </div>
+        <div className="sorting__length-input">
+          <input
+            value={length}
+            type="number"
+            onChange={(e) => {
+              const val = e.target.value ? +e.target.value : INIT_LENGTH;
+              handleLengthChange(val);
+            }}
+          />
+        </div>
+      </div>
+      <div className="sorting__list">
+        {SORTING_ALGO.map((sorting) => (
+          <SortingButton key={sorting} name={sorting} />
+        ))}
+      </div>
     </div>
   );
 }
 
 function SortingButton({ name }: { name: string }) {
   return (
-    <li className="sorting__list-item">
+    <div className="sorting__list-item">
       <button
         className="sorting__btn"
         type="button"
@@ -33,6 +44,6 @@ function SortingButton({ name }: { name: string }) {
       >
         {name}
       </button>
-    </li>
+    </div>
   );
 }

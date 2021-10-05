@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { INIT_LENGTH } from "./controlBar/constants";
 
 type ContextProps = {
   length: number;
@@ -8,8 +9,10 @@ type ContextProps = {
 };
 
 const CONTEXT_INIT_VAL = {
-  length: 30,
-  randomArr: Array.from({ length: 30 }, () => Math.floor(Math.random() * 30)),
+  length: INIT_LENGTH,
+  randomArr: Array.from({ length: INIT_LENGTH }, () =>
+    Math.floor(Math.random() * INIT_LENGTH)
+  ),
   generateArr: () => {},
   handleLengthChange: (v: number) => {},
 };

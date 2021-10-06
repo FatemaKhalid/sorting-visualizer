@@ -22,11 +22,9 @@ export function SortingManager({ Component, ...props }: SortingElementProps) {
 // }
 
 export function SelectionSort() {
-  const { randomArr, updateRandomArr } = useSortingData();
+  const { randomArr, updateChartData } = useSortingData();
 
-  // const data = useMemo(() => randomArr, [randomArr]);
-  function sortArr(data1: number[], cb: (arr: number[]) => void): number[] {
-    console.log("SelectionSort");
+  function sortArr(cb: (arr: number[]) => void): number[] {
     let data = randomArr;
     let statusArr = Array.from(
       { length: data.length },
@@ -45,12 +43,10 @@ export function SelectionSort() {
           data[i] = data[minIdx];
           data[minIdx] = temp;
         }
-        // console.log(statusArr.join(","));
         cb(data);
       }
       statusArr[i] = SortingStatus.PROCESSED;
     });
-    // console.log("final", statusArr.join(","));
     return data;
   }
 
@@ -58,7 +54,7 @@ export function SelectionSort() {
     <button
       className="sorting__btn"
       type="button"
-      onClick={() => sortArr(randomArr, updateRandomArr)}
+      onClick={() => sortArr(updateChartData)}
     >
       SelectionSort
     </button>

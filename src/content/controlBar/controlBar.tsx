@@ -4,7 +4,13 @@ import "../content.scss";
 import { SortingManager } from "../sorting";
 
 export function ControlBar() {
-  const { length, generateArr, handleLengthChange } = useSortingData();
+  const {
+    length,
+    generateArr,
+    handleLengthChange,
+    updateChartData,
+    randomArr,
+  } = useSortingData();
   return (
     <div className="sorting__control-bar">
       <div className="sorting__control-bar-btns">
@@ -20,6 +26,8 @@ export function ControlBar() {
             onChange={(e) => {
               const val = e.target.value ? +e.target.value : INIT_LENGTH;
               handleLengthChange(val);
+              generateArr();
+              updateChartData(randomArr);
             }}
           />
         </div>

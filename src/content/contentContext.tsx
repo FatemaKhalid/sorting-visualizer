@@ -1,3 +1,4 @@
+import { ChartData } from "chart.js";
 import { createContext, useContext, useState } from "react";
 import { getChartConfig } from "./chart/services";
 import { INIT_LENGTH } from "./controlBar/constants";
@@ -5,7 +6,7 @@ import { INIT_LENGTH } from "./controlBar/constants";
 type ContextProps = {
   length: number;
   randomArr: number[];
-  data: any;
+  data: ChartData;
   generateArr: () => void;
   handleLengthChange: (v: number) => void;
   updateRandomArr: (v: number[]) => void;
@@ -17,7 +18,7 @@ const CONTEXT_INIT_VAL = {
   randomArr: Array.from({ length: INIT_LENGTH }, () =>
     Math.floor(Math.random() * INIT_LENGTH)
   ),
-  data: {},
+  data: { datasets: [] },
   generateArr: () => {},
   handleLengthChange: (v: number) => {},
   updateRandomArr: (v: number[]) => {},
@@ -30,12 +31,19 @@ export const useSortingData = () => useContext(SortingArrContext);
 
 export const SortingDataProvider = (props: any) => {
   const [length, setLength] = useState(INIT_LENGTH);
-  const { randomArr, generateArr, updateRandomArr } = useRandomArr(length);
-  const { data, updateChartData } = useChartData(length, randomArr);
+  const { randomArr, generateArr1, updateRandomArr } = useRandomArr(length);
+  const { data, updateChartData1 } = useChartData(length, randomArr);
   function handleLengthChange(val: number) {
     setLength(val);
   }
-
+  function generateArr() {
+    generateArr1();
+    updateChartData1(randomArr);
+  }
+  function updateChartData(arr: number[]) {
+    updateRandomArr(arr);
+    updateChartData1(arr);
+  }
   return (
     <SortingArrContext.Provider
       value={{
@@ -54,8 +62,9 @@ export const SortingDataProvider = (props: any) => {
 };
 
 function useRandomArr(length: number) {
-  const [randomArr, setRandomArr] = useState<number[]>([]);
-  function generateArr() {
+  const init = Array.from({ length }, () => Math.floor(Math.random() * length));
+  const [randomArr, setRandomArr] = useState<number[]>(init);
+  function generateArr1() {
     const randomData = Array.from({ length }, () =>
       Math.floor(Math.random() * length)
     );
@@ -63,15 +72,15 @@ function useRandomArr(length: number) {
   }
   function updateRandomArr(arr: number[]) {
     setRandomArr(arr);
-    console.log(randomArr.join(","));
   }
-  return { randomArr, generateArr, updateRandomArr };
+  return { randomArr, generateArr1, updateRandomArr };
 }
 
 function useChartData(length: number, randomArr: number[]) {
   const [data, setData] = useState(getChartConfig(length, randomArr));
-  function updateChartData(arr: number[]) {
+
+  function updateChartData1(arr: number[]) {
     setData(getChartConfig(length, arr));
   }
-  return { data, updateChartData };
+  return { data, updateChartData1 };
 }

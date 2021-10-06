@@ -1,5 +1,5 @@
 import { useSortingData } from "../contentContext";
-import { INIT_LENGTH, SortingTypes, SORTING_ALGO } from "./constants";
+import { INIT_LENGTH, SORTING_ALGO } from "./constants";
 import "../content.scss";
 import { SortingManager } from "../sorting";
 
@@ -26,17 +26,11 @@ export function ControlBar() {
       </div>
       <div className="sorting__list">
         {SORTING_ALGO.map((sorting) => (
-          <SortingButton key={sorting.name} sortingData={sorting} />
+          <div key={sorting.name} className="sorting__list-item">
+            <SortingManager Component={sorting.strategy} />
+          </div>
         ))}
       </div>
-    </div>
-  );
-}
-
-function SortingButton({ sortingData }: { sortingData: SortingTypes }) {
-  return (
-    <div className="sorting__list-item">
-      <SortingManager Component={sortingData.strategy} />
     </div>
   );
 }

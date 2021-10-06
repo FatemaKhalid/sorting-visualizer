@@ -1,4 +1,4 @@
-import { ElementType, useMemo } from "react";
+import { ElementType } from "react";
 import { useSortingData } from "../contentContext";
 import { SortingStatus } from "../controlBar/constants";
 
@@ -41,10 +41,10 @@ export function SelectionSort() {
         if (min >= data[idx]) {
           min = Math.min(min, data[idx]);
           minIdx = idx;
+          const temp = data[i];
+          data[i] = data[minIdx];
+          data[minIdx] = temp;
         }
-        const temp = data[i];
-        data[i] = data[minIdx];
-        data[minIdx] = temp;
         // console.log(statusArr.join(","));
         cb(data);
       }

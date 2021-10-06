@@ -1,10 +1,16 @@
 import { useSortingData } from "../contentContext";
-import { INIT_LENGTH, SortingTypes, SORTING_ALGO } from "./constants";
+import { INIT_LENGTH, SORTING_ALGO } from "../services";
+import { SortingManager } from "../sorting";
 import "../content.scss";
-import { InsertionSort, SortingManager } from "../sorting";
 
 export function ControlBar() {
-  const { length, generateArr, handleLengthChange } = useSortingData();
+  const {
+    length,
+    generateArr,
+    handleLengthChange,
+    updateChartData,
+    randomArr,
+  } = useSortingData();
   return (
     <div className="sorting__control-bar">
       <div className="sorting__control-bar-btns">
@@ -20,31 +26,19 @@ export function ControlBar() {
             onChange={(e) => {
               const val = e.target.value ? +e.target.value : INIT_LENGTH;
               handleLengthChange(val);
+              generateArr();
+              updateChartData(randomArr);
             }}
           />
         </div>
       </div>
       <div className="sorting__list">
         {SORTING_ALGO.map((sorting) => (
-          <SortingButton key={sorting.name} sortingData={sorting} />
+          <div key={sorting.name} className="sorting__list-item">
+            <SortingManager Component={sorting.strategy} />
+          </div>
         ))}
       </div>
-    </div>
-  );
-}
-
-function SortingButton({ sortingData }: { sortingData: SortingTypes }) {
-  const { randomArr } = useSortingData();
-  function handleSorting() {
-    console.log({ sortingData });
-    const context = new SortingManager(new InsertionSort());
-    context.sortArr(randomArr);
-  }
-  return (
-    <div className="sorting__list-item">
-      <button className="sorting__btn" type="button" onClick={handleSorting}>
-        {sortingData.name}
-      </button>
     </div>
   );
 }

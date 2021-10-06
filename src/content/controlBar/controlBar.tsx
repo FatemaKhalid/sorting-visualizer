@@ -1,7 +1,7 @@
 import { useSortingData } from "../contentContext";
 import { INIT_LENGTH, SortingTypes, SORTING_ALGO } from "./constants";
 import "../content.scss";
-import { InsertionSort, SortingManager } from "../sorting";
+import { SortingManager } from "../sorting";
 
 export function ControlBar() {
   const { length, generateArr, handleLengthChange } = useSortingData();
@@ -34,17 +34,9 @@ export function ControlBar() {
 }
 
 function SortingButton({ sortingData }: { sortingData: SortingTypes }) {
-  const { randomArr } = useSortingData();
-  function handleSorting() {
-    console.log({ sortingData });
-    const context = new SortingManager(new InsertionSort());
-    context.sortArr(randomArr);
-  }
   return (
     <div className="sorting__list-item">
-      <button className="sorting__btn" type="button" onClick={handleSorting}>
-        {sortingData.name}
-      </button>
+      <SortingManager Component={sortingData.strategy} />
     </div>
   );
 }

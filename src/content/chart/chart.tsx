@@ -1,18 +1,19 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import { useSortingData } from "../contentContext";
-import { getChartConfig } from "./services";
 
 export function Chart() {
-  const { length, randomArr, generateArr } = useSortingData();
+  const { length, generateArr, updateChartData, data, randomArr } =
+    useSortingData();
+
   useEffect(() => {
     generateArr();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [length]);
-  const data = useMemo(
-    () => getChartConfig(length, randomArr),
-    [randomArr, length]
-  );
+  useEffect(() => {
+    updateChartData(randomArr);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [randomArr]);
   return (
     <>
       <Bar

@@ -1,6 +1,6 @@
 import { ElementType } from "react";
 import { useSortingData } from "../contentContext";
-import { SortingStatus } from "../controlBar/constants";
+import { SortingStatus } from "../services";
 
 type SortingElementProps = {
   Component: ElementType;

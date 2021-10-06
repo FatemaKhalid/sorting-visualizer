@@ -1,7 +1,6 @@
 import { ChartData } from "chart.js";
 import { createContext, useContext, useState } from "react";
-import { getChartConfig } from "./chart/services";
-import { INIT_LENGTH } from "./controlBar/constants";
+import { getChartConfig, INIT_LENGTH } from "./services";
 
 type ContextProps = {
   length: number;

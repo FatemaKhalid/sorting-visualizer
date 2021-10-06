@@ -1,7 +1,7 @@
 import { useSortingData } from "../contentContext";
-import { INIT_LENGTH, SORTING_ALGO } from "./constants";
-import "../content.scss";
+import { INIT_LENGTH, SORTING_ALGO } from "../services";
 import { SortingManager } from "../sorting";
+import "../content.scss";
 
 export function ControlBar() {
   const {

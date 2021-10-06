@@ -4,15 +4,16 @@ import { useSortingData } from "../contentContext";
 import { getChartConfig } from "./services";
 
 export function Chart() {
-  const { length, generateArr, randomArr } = useSortingData();
-  const [data, setData] = useState(getChartConfig(length, randomArr));
+  const { length, generateArr, randomArr, data, updateChartData } =
+    useSortingData();
+  // const [data, setData] = useState(getChartConfig(length, randomArr));
 
   useEffect(() => {
     generateArr();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [length]);
   useEffect(() => {
-    setData(getChartConfig(length, randomArr));
+    updateChartData(randomArr);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [randomArr]);
   return (

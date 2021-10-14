@@ -1,6 +1,6 @@
 import { ElementType } from "react";
 import { useSortingData } from "../contentContext";
-import { SortingStatus } from "../services";
+import { sleep, SortingStatus } from "../services";
 
 type SortingElementProps = {
   Component: ElementType;
@@ -22,20 +22,20 @@ export function SortingManager({ Component, ...props }: SortingElementProps) {
 // }
 
 export function SelectionSort() {
-  const { randomArr, updateChartData } = useSortingData();
+  const { randomArr, updateChartData, sortingStatus } = useSortingData();
 
-  function sortArr(cb: (arr: number[]) => void): number[] {
-    let data = randomArr;
-    let statusArr = Array.from(
-      { length: data.length },
-      () => SortingStatus.NOT_PROCESSED
-    );
+  function sortArr(
+    data: number[],
+    cb: (arr: number[], s: SortingStatus[]) => void
+  ): number[] {
+    let statusArr = sortingStatus;
     data.forEach((_, i) => {
       let min = Number.MAX_SAFE_INTEGER,
         minIdx = i;
       statusArr[i] = SortingStatus.PROCESSING;
       for (let idx = i; idx < data.length; idx++) {
         statusArr[idx] = SortingStatus.PROCESSING;
+        cb(data, statusArr);
         if (min >= data[idx]) {
           min = Math.min(min, data[idx]);
           minIdx = idx;
@@ -43,9 +43,11 @@ export function SelectionSort() {
           data[i] = data[minIdx];
           data[minIdx] = temp;
         }
-        cb(data);
+
+        cb(data, statusArr);
       }
       statusArr[i] = SortingStatus.PROCESSED;
+      cb(data, statusArr);
     });
     return data;
   }
@@ -54,7 +56,7 @@ export function SelectionSort() {
     <button
       className="sorting__btn"
       type="button"
-      onClick={() => sortArr(updateChartData)}
+      onClick={() => sortArr(randomArr, updateChartData)}
     >
       SelectionSort
     </button>
